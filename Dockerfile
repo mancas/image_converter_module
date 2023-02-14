@@ -13,7 +13,6 @@ FROM node:16-alpine
 WORKDIR /opt
 
 COPY --from=BUILD_IMAGE /opt/dist /opt/dist
-COPY --from=BUILD_IMAGE /opt/.env /opt/dist/.env
 COPY --from=BUILD_IMAGE /opt/node_modules /opt/node_modules
 
 EXPOSE 3000
