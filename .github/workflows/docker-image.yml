@@ -9,9 +9,7 @@ env:
   IMAGE_NAME: image_converter_module/image_converter_module
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -19,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
