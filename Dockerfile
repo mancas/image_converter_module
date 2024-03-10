@@ -1,4 +1,4 @@
-FROM node:16-alpine AS BUILD_IMAGE
+FROM node:20-alpine AS BUILD_IMAGE
 
 COPY . /opt
 
@@ -8,7 +8,7 @@ RUN yarn --frozen-lockfile
 
 RUN yarn tsc
 
-FROM node:16-alpine
+FROM node:20-alpine
 
 WORKDIR /opt
 

@@ -11,6 +11,7 @@ const STATUS = {
 
 export default {
   convert: async (req: Request, res: Response, next: NextFunction) => {
+    console.info('here, convert')
     try {
       if (
         !req.headers['content-type'] ||
@@ -68,11 +69,12 @@ export default {
               .toBuffer()
             results.push(data)
           } catch (error) {
-            results.push(error)
+            next(error)
+            return
           }
         }
 
-        res.send(results)
+        res.send(results?.[0])
       })
     } catch (error) {
       next(error)
