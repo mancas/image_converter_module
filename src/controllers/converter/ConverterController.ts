@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import formidable from 'formidable'
 import fs from 'fs/promises'
+import convert from 'heic-convert'
 import sharp, { FormatEnum } from 'sharp'
 
 const STATUS = {
@@ -11,7 +12,6 @@ const STATUS = {
 
 export default {
   convert: async (req: Request, res: Response, next: NextFunction) => {
-    console.info('here, convert')
     try {
       if (
         !req.headers['content-type'] ||
@@ -61,7 +61,22 @@ export default {
         const results = []
         for await (const fileKey of Object.keys(files)) {
           const file = files[fileKey] as unknown as formidable.File
-          const buffer = await fs.readFile(file.filepath)
+          let buffer = await fs.readFile(file.filepath)
+
+          if (file.mimetype === 'image/heic') {
+            console.info('Converting heic to jpeg')
+            try {
+              const jpgBuffer = await convert({
+                buffer,
+                format: 'JPEG',
+                quality: 1,
+              })
+              buffer = Buffer.from(jpgBuffer)
+            } catch (error) {
+              next(error)
+              return
+            }
+          }
 
           try {
             const data = await sharp(buffer)
