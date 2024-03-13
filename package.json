@@ -1,6 +1,6 @@
 {
   "name": "image_converter_module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Module to convert images",
   "main": "dist/index.js",
   "scripts": {
