@@ -14,7 +14,13 @@ export default class App {
 
     app.use(middlewares.cors)
     app.use(`/api/${config.apiVersion}`, convertRoutes)
-    app.use(middlewares.error)
+
+    // Error handling middleware
+    app.use((err, res) => {
+      console.info(err)
+      res.status(500).json({ message: 'Internal Server Error' })
+    })
+
     app.listen(config.apiPort, () => {
       console.log(`⚡️[server]: Server is running at http://localhost:${config.apiPort}`)
     })
