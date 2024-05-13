@@ -79,8 +79,13 @@ export default {
           }
 
           try {
+            const options: { quality?: number } = {}
+            if (to === 'webp') {
+              options['quality'] = 100
+            }
+
             const data = await sharp(buffer)
-              .toFormat(to as keyof FormatEnum)
+              .toFormat(to as keyof FormatEnum, options)
               .toBuffer()
             results.push(data)
           } catch (error) {
